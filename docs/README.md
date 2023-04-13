@@ -1,31 +1,40 @@
-# ChatGPT <img src="https://github.com/acheong08/ChatGPT/blob/main/logo.png?raw=true" width="7%"></img>
+# ChatGPT <img src="https://github.com/acheong08/ChatGPT/blob/main/logo.png?raw=true" width="15%"></img>
+
+English - [中文](./README_zh.md)
 
 [![PyPi](https://img.shields.io/pypi/v/revChatGPT.svg)](https://pypi.python.org/pypi/revChatGPT)
+[![Support_Platform](https://img.shields.io/pypi/pyversions/revChatGPT)](https://pypi.python.org/pypi/revChatGPT)
 [![Downloads](https://static.pepy.tech/badge/revchatgpt)](https://pypi.python.org/pypi/revChatGPT)
 
 Reverse Engineered ChatGPT API by OpenAI. Extensible for chatbots etc.
 
+[![](./view.gif)](https://pypi.python.org/pypi/revChatGPT)
+
 > ## Support my work
 > Make a pull request and fix my bad code.
 
+> #### Discord Server: https://discord.gg/9K2BvbXEHT
+
 # Installation
-`pip3 install --upgrade revChatGPT`
+
+```
+python -m pip install --upgrade revChatGPT
+```
+
+### Suport Python Version
+- Minimum - Python3.9
+- Recommend - Python3.11+
+
 
 <details>
 
 <summary>
 
 # V1 Standard ChatGPT
-⚠️ Warning: As of 2023/03/15 - [OpenAI has deactivated some accounts using V1](https://github.com/acheong08/ChatGPT/issues/1158). We recommend using V3 to avoid getting banned. 
-> Update 2023/03/10 11:00AM - Everything works
 > > 3:35 PM - Rate limit at 5 requests / 10 seconds due to small server (I ran out of budget.)
 
-> ### [Privacy policy](https://github.com/acheong08/ChatGPT/blob/main/PRIVACY.md)
+> ### [Privacy policy](./PRIVACY.md)
 > <br>
->
-> #### [Discussion regarding data collection](https://github.com/acheong08/ChatGPT/discussions/1147)
-
-> :warning: **Avoid untrusted servers**. It was discovered today that access tokens can also be used to call the paid API. If your token is logged, it could be easily abused and cost you money.
 
 > ### !!! Server is now open source at https://github.com/acheong08/ChatGPT-Proxy-V4 for personal use (requires ChatGPT plus)
 
@@ -37,22 +46,17 @@ Reverse Engineered ChatGPT API by OpenAI. Extensible for chatbots etc.
 2. Save your email and password
 
 ### Authentication method: (Choose 1)
+
 #### - Email/Password
-Not supported for Google/Microsoft accounts
+> *Currently broken for free users. Do `export PUID="..."` if you have a plus account. The PUID is a cookie named `_puid`*
+Not supported for Google/Microsoft accounts.
 ```json
 {
   "email": "email",
   "password": "your password"
 }
 ```
-#### - Session token
-Comes from cookies on chat.openai.com as "__Secure-next-auth.session-token"
 
-```json
-{
-  "session_token": "..."
-}
-```
 #### - Access token
 https://chat.openai.com/api/auth/session
 ```json
@@ -108,8 +112,7 @@ Set the environment variable `NO_COLOR` to `true` to disable color output.
 from revChatGPT.V1 import Chatbot
 
 chatbot = Chatbot(config={
-  "email": "<your email>",
-  "password": "<your password>"
+  "access_token": "<your access_token>"
 })
 
 print("Chatbot: ")
@@ -129,8 +132,7 @@ print()
 from revChatGPT.V1 import Chatbot
 
 chatbot = Chatbot(config={
-  "email": "<your email>",
-  "password": "<your password>"
+  "access_token": "<your access_token>"
 })
 
 prompt = "how many beaches does portugal have?"
@@ -144,7 +146,7 @@ for data in chatbot.ask(
 print(response)
 ```
 #### All API methods
-Refer to the [wiki](https://github.com/acheong08/ChatGPT/wiki/V1) for advanced developer usage.
+Refer to the [wiki](https://github.com/acheong08/ChatGPT/wiki/) for advanced developer usage.
 
 </details>
 
@@ -173,8 +175,11 @@ Get API key from https://platform.openai.com/account/api-keys
 Type '!help' to show a full list of commands
 Press Esc followed by Enter or Alt+Enter to send a message.
 
-usage: V3.py [-h] --api_key API_KEY [--temperature TEMPERATURE] [--no_stream] [--base_prompt BASE_PROMPT] [--proxy PROXY] [--top_p TOP_P]
-             [--reply_count REPLY_COUNT] [--enable_internet] [--config CONFIG] [--submit_key SUBMIT_KEY]
+usage: V3.py [-h] --api_key API_KEY [--temperature TEMPERATURE] [--no_stream]
+             [--base_prompt BASE_PROMPT] [--proxy PROXY] [--top_p TOP_P]
+             [--reply_count REPLY_COUNT] [--enable_internet] [--config CONFIG]
+             [--submit_key SUBMIT_KEY]
+             [--model {gpt-3.5-turbo,gpt-4,gpt-4-32k}]
 
 options:
   -h, --help            show this help message and exit
@@ -192,6 +197,7 @@ options:
   --config CONFIG       Path to V3 config json file
   --submit_key SUBMIT_KEY
                         Custom submit key for chatbot. For more information on keys, see https://python-prompt-toolkit.readthedocs.io/en/stable/pages/advanced_topics/key_bindings.html#list-of-special-keys
+  --model {gpt-3.5-turbo,gpt-4,gpt-4-32k}
 ```
 
 ## Developer API
@@ -207,7 +213,7 @@ chatbot.ask("Hello world")
 ```python
 from revChatGPT.V3 import Chatbot
 chatbot = Chatbot(api_key="<api_key>")
-for data in chatbot.ask("Hello world"):
+for data in chatbot.ask_stream("Hello world"):
     print(data, end="", flush=True)
 ```
 
@@ -223,7 +229,15 @@ If you have a cool project you want added to the list, open an issue.
 
 This is not an official OpenAI product. This is a personal project and is not affiliated with OpenAI in any way. Don't sue me.
 
-# Credits
 
-- [virtualharby](https://twitter.com/virtualharby) - Memes for emotional support
-- [All contributors](https://github.com/acheong08/ChatGPT/graphs/contributors) - Pull requests
+## Contributors
+
+This project exists thanks to all the people who contribute.
+
+<a href="https://github.com/acheong08/ChatGPT/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=acheong08/ChatGPT" />
+</a>
+
+## Additional credits
+
+- Coding while listening to [this amazing song](https://www.youtube.com/watch?v=VaMR_xDhsGg) by [virtualharby](https://www.youtube.com/@virtualharby)
